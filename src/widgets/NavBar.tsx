@@ -1,3 +1,4 @@
+'use client'
 import {Button, Layout, Menu, Space} from 'antd';
 import LoginPopover from "@/widgets/Auth/Login/LoginPopover";
 import {UserAddOutlined} from "@ant-design/icons";

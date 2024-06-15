@@ -1,5 +1,6 @@
 import {Form, Input, Button, Col, Row, Checkbox} from "antd";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
+import {UserRegistration} from "@/features/UserRegistration";
 
 export default function RegisterWidget() {
 
@@ -32,15 +33,16 @@ export default function RegisterWidget() {
             {...formItemLayout}
             name="normal_register"
             className="register-form"
+            onFinish={(values) => UserRegistration(values)}
             initialValues={{remember: true}}
             style={{maxWidth: 800}}
             scrollToFirstError
         >
             <Form.Item
-                name="username"
+                name="login"
                 label='Логин'
                 tooltip="По этому логину потом можно будет входить в систему"
-                rules={[{required: true, message: 'Пожалуйста, введите свой почту или логин!'}]}
+                rules={[{required: true, message: 'Пожалуйста, введите свой логин!'}]}
             >
                 <Input prefix={<UserOutlined className="site-form-item-icon"/>}/>
             </Form.Item>
