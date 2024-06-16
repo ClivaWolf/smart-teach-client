@@ -2,18 +2,17 @@ import {serverConfig} from "@/app/config";
 import axios from "axios";
 
 
-export const UserLogin = async (formData) => {
+export const UserLogin = async (formData: any) => {
     try {
         const response = await axios.post(serverConfig.urlRemoteServer + '/auth/login', formData);
         if (response.status === 200) {
-            console.log(response);
             return response.data.access_token;
         } else {
-            throw new Error('Ошибка входа');
+            return {error: response.data}
         }
-    } catch (error) {
+    } catch (error: any) {
         // Обработка ошибок
-        console.error('Ошибка при входе:', error);
-        return {error: error.message};
+        console.error('Ошибка при входе:', error.response.data);
+        return {error: error.response.data};
     }
 }

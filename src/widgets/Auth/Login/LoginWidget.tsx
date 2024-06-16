@@ -3,20 +3,21 @@ import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import {Button, Checkbox, Form, Input, Space} from 'antd';
 import {UserLogin} from "@/features/UserLogin";
 import {useRouter} from "next/navigation";
+import ForgotPasswordWidget from "@/widgets/Auth/ForgotPasswordWIdget";
+import Link from "next/link";
 
 
 export default function LoginWidget() {
 
     const router = useRouter();
 
-    const handleFinish = async (values) => {
+    const handleFinish = async (values: any) => {
         const response = await UserLogin(values);
         if (response.error) {
-            console.log(response.error)
+            router.push(`/login?error=${response.message}`);
         } else {
-            console.log(response);
             localStorage.setItem('token', response.token);
-            await router.push('/user/' + values.login);
+            router.push('/user/' + values.login);
         }
     };
 
@@ -26,6 +27,7 @@ export default function LoginWidget() {
             className="login-form"
             initialValues={{remember: true}}
             onFinish={handleFinish}
+            style={{margin: 8, marginBottom: -16}}
         >
             <Form.Item
                 name="login"
@@ -48,17 +50,15 @@ export default function LoginWidget() {
                     <Checkbox>Запомнить меня</Checkbox>
                 </Form.Item>
 
-                <a className="login-form-forgot" href="">
-                    Забыли пароль?
-                </a>
+                <ForgotPasswordWidget/>
             </Form.Item>
 
-            <Form.Item>
+            <Form.Item style={{paddingBottom: 8}}>
                 <Space direction='horizontal' size='small'>
                     <Button type="primary" htmlType="submit" className="login-form-button">
                         Войти
                     </Button>
-                    <a href="">или зарегистрируйтесь!</a>
+                    <Link legacyBehavior={true} href={'/register'}>или зарегистрируйтесь!</Link>
                 </Space>
             </Form.Item>
         </Form>
