@@ -1,10 +1,24 @@
+'use client';
 import {LockOutlined, UserOutlined} from '@ant-design/icons';
 import {Button, Checkbox, Form, Input, Space} from 'antd';
+import {UserLogin} from "@/features/UserLogin";
+import {useRouter} from "next/navigation";
+import ForgotPasswordWidget from "@/widgets/Auth/ForgotPasswordWIdget";
+import Link from "next/link";
 
 
 export default function LoginWidget() {
-    const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
+
+    const router = useRouter();
+
+    const handleFinish = async (values: any) => {
+        const response = await UserLogin(values);
+        if (response.error) {
+            router.push(`/login?error=${response.message}`);
+        } else {
+            localStorage.setItem('token', response.token);
+            router.push('/user/' + values.login);
+        }
     };
 
     return (
@@ -12,10 +26,11 @@ export default function LoginWidget() {
             name="normal_login"
             className="login-form"
             initialValues={{remember: true}}
-            onFinish={onFinish}
+            onFinish={handleFinish}
+            style={{margin: 8, marginBottom: -16}}
         >
             <Form.Item
-                name="username"
+                name="login"
                 rules={[{required: true, message: 'Пожалуйста, введите свою почту или логин!'}]}
             >
                 <Input prefix={<UserOutlined className="site-form-item-icon"/>} placeholder="Эл. почта или логин"/>
@@ -35,17 +50,15 @@ export default function LoginWidget() {
                     <Checkbox>Запомнить меня</Checkbox>
                 </Form.Item>
 
-                <a className="login-form-forgot" href="">
-                    Забыли пароль?
-                </a>
+                <ForgotPasswordWidget/>
             </Form.Item>
 
-            <Form.Item>
+            <Form.Item style={{paddingBottom: 8}}>
                 <Space direction='horizontal' size='small'>
                     <Button type="primary" htmlType="submit" className="login-form-button">
                         Войти
                     </Button>
-                    <a href="">или зарегистрируйтесь!</a>
+                    <Link legacyBehavior={true} href={'/register'}>или зарегистрируйтесь!</Link>
                 </Space>
             </Form.Item>
         </Form>

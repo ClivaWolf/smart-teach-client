@@ -1,7 +1,23 @@
 import {Form, Input, Button, Col, Row, Checkbox} from "antd";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
+import {UserRegistration} from "@/features/UserRegistration";
+import {useRouter} from "next/navigation";
+
 
 export default function RegisterWidget() {
+
+    const router = useRouter();
+
+    const handleFinish = async (values: any) => {
+        const response = await UserRegistration(values);
+        if (response.error) {
+            console.log(response.error)
+        } else {
+            console.log(response);
+            localStorage.setItem('token', response.token);
+            router.push('/user/' + values.login);
+        }
+    };
 
     const formItemLayout = {
         labelCol: {
@@ -32,15 +48,16 @@ export default function RegisterWidget() {
             {...formItemLayout}
             name="normal_register"
             className="register-form"
+            onFinish={handleFinish}
             initialValues={{remember: true}}
             style={{maxWidth: 800}}
             scrollToFirstError
         >
             <Form.Item
-                name="username"
+                name="login"
                 label='Логин'
                 tooltip="По этому логину потом можно будет входить в систему"
-                rules={[{required: true, message: 'Пожалуйста, введите свой почту или логин!'}]}
+                rules={[{required: true, message: 'Пожалуйста, введите свой логин!'}]}
             >
                 <Input prefix={<UserOutlined className="site-form-item-icon"/>}/>
             </Form.Item>
@@ -48,7 +65,7 @@ export default function RegisterWidget() {
             <Form.Item
                 name="email"
                 label='Эл. почта'
-                rules={[{required: true, message: 'Пожалуйста, введите свой почту или логин!'}]}
+                rules={[{required: true, type: 'email', message: 'Пожалуйста, введите свою электронную почту!'}]}
             >
                 <Input prefix={<UserOutlined className="site-form-item-icon"/>}/>
             </Form.Item>
