@@ -1,0 +1,7 @@
+.layoutContent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 6vh;
+    color: #ff0000 !important
+}

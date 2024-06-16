@@ -7,6 +7,7 @@ interface SubmitButtonProps {
     form: FormInstance;
 }
 
+// TODO fix problem with ==> onClick <== - не существует в прострвнсве PropsWithChildren<>
 const SubmitButton: React.FC<React.PropsWithChildren<SubmitButtonProps>> = ({form, children, onClick}) => {
     const [submittable, setSubmittable] = React.useState<boolean>(false);
 
@@ -59,6 +60,7 @@ export default function ForgotPasswordWidget() {
                 onCancel={handleCancel}
                 destroyOnClose
                 footer={[
+                    //TODO fix problem with ==> onClick <==
                     <SubmitButton form={form} key="submit" onClick={handleOk}>Восстановить</SubmitButton>,
                     <Button key="back" onClick={handleCancel}>Отмена</Button>,
                 ]}

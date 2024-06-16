@@ -7,6 +7,8 @@ import "./globals.css";
 import {Breadcrumb, Layout, Menu, theme} from 'antd';
 import NavBar from "@/widgets/NavBar";
 
+import styles from './layout.module.css'
+
 const {Header, Content, Footer} = Layout;
 
 export default function RootLayout({children}: Readonly<{
@@ -18,7 +20,7 @@ export default function RootLayout({children}: Readonly<{
         <AntdRegistry>
             <Layout>
                 <NavBar/>
-                <Content style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 64}}>
+                <Content className={styles.layoutContent}>
                     {children}
                 </Content>
             </Layout>
