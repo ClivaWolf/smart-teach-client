@@ -4,19 +4,19 @@ import {useEffect, useState} from "react";
 
 export function LoginPage() {
 
-    const [error, setError] = useState('');
+    const [errormessage, setErrorMessage] = useState('');
 
     useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const errorParam = urlParams.get('error');
-        if (errorParam) {
-            setError(errorParam);
+        if (sessionStorage.getItem('login_error')) {
+            const error = JSON.parse(sessionStorage.getItem('login_error')!);
+            setErrorMessage(error.message);
+            sessionStorage.removeItem('login_error');
         }
     }, []);
 
     return (
         <Space align='center' direction='vertical'>
-            {error && <Alert message='Ошибка!' description={error} type="error" showIcon/>}
+            {errormessage && <Alert message='Ошибка!' description={errormessage} type="error" showIcon/>}
             <LoginWidget/>
         </Space>
     )

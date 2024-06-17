@@ -6,14 +6,13 @@ export const UserRegistration = async (formData: any) => {
     try {
         const response = await axios.post(serverConfig.urlRemoteServer + '/auth/register', formData);
         if (response.status === 201) {
-            // Предполагаем, что успешный ответ содержит токен
             return response.data.access_token;
         } else {
-            throw new Error('Ошибка регистрации');
+            return {error: response.data};
         }
     } catch (error: any) {
         // Обработка ошибок
         console.error('Ошибка при регистрации:', error);
-        return {error: error.message};
+        return {error: error.response.data};
     }
 }

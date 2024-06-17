@@ -3,12 +3,11 @@ import ForgotPasswordWidget from "@/widgets/Auth/ForgotPasswordWIdget";
 import Link from "next/link";
 
 export const LoginActions = () => (
-    <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
+    <>
+        <Form.Item name="remember" valuePropName="checked">
             <Checkbox>Запомнить меня</Checkbox>
+            <ForgotPasswordWidget/>
         </Form.Item>
-
-        <ForgotPasswordWidget />
 
         <Form.Item style={{ paddingBottom: 8 }}>
             <Space direction='horizontal' size='small'>
@@ -18,5 +17,5 @@ export const LoginActions = () => (
                 <Link legacyBehavior={true} href={'/register'}>или зарегистрируйтесь!</Link>
             </Space>
         </Form.Item>
-    </Form.Item>
+    </>
 );
