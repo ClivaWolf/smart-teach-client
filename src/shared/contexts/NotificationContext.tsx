@@ -1,6 +1,6 @@
-'use client';
-import {notification} from 'antd';
 import React, {createContext, useContext} from "react";
+import {notification} from "antd";
+
 
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
@@ -14,7 +14,7 @@ export interface NotificationContextProps {
     openNotificationWithIcon: (type: NotificationType, content: NotificationContent) => void;
 }
 
-const NotificationContext = createContext<NotificationContextProps | undefined>(undefined);
+export const NotificationContext = createContext<NotificationContextProps | null>(null);
 
 export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
     const [api, contextHolder] = notification.useNotification();

@@ -1,8 +1,10 @@
-import {UserRegistration} from "@/features/UserRegistration";
-import {NotificationContextProps} from "@/features/NotificationContext";
+import {UserRegistration} from "@/features/Auth/UserRegistration";
+import {NotificationContextProps} from "@/shared/contexts/NotificationContext";
 
 
-export const handleFinish = async (values: any, router: any, openNotificationWithIcon: NotificationContextProps['openNotificationWithIcon']) => {
+export const handleFinish = async (values: any, router: any,
+                                   openNotificationWithIcon: NotificationContextProps['openNotificationWithIcon'],
+                                   updateUser: () => void) => {
     const response = await UserRegistration(values);
     if (response.error) {
         sessionStorage.setItem('register_error', JSON.stringify(response.error));
@@ -14,6 +16,7 @@ export const handleFinish = async (values: any, router: any, openNotificationWit
             description: 'Теперь вы можете войти',
             placement: 'bottomRight'
         });
+        updateUser();
         router.push('/user/' + values.login);
     }
 };

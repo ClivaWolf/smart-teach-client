@@ -1,12 +1,13 @@
-import { UserLogin } from "@/features/UserLogin";
+import {UserLogin} from "@/features/Auth/UserLogin";
 
-export const handleFinish = async (values: any, router: any) => {
+export const handleFinish = async (values: any, router: any, updateUser: () => void, onError: (message: string) => void) => {
     const response = await UserLogin(values);
     if (response.error) {
-        sessionStorage.setItem('login_error', JSON.stringify(response.error));
-        router.push(`/login?error=${response.error.statusCode}`);
+        onError(response.error.message);
+        router.push(`/login`);
     } else {
-        localStorage.setItem('token', response.token);
+        localStorage.setItem('token', response);
+        updateUser();
         router.push('/user/' + values.login);
     }
 };

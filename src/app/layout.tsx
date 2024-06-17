@@ -1,13 +1,12 @@
 'use client';
 import React from 'react';
-import {AntdRegistry} from '@ant-design/nextjs-registry';
-import "./globals.css";
+import "@/app/styles/globals.css";
 
-import {ConfigProvider, Layout} from 'antd';
+import {Layout, Space} from 'antd';
 import NavBar from "@/widgets/NavBar";
 
 import styles from './layout.module.css'
-import {NotificationProvider} from "@/features/NotificationContext";
+import {AppProvider} from "@/app/providers/AppProvider";
 
 const {Header, Content, Footer} = Layout;
 
@@ -19,23 +18,19 @@ export default function RootLayout({children}: Readonly<{
     return (
         <html lang="ru">
         <body>
-        <ConfigProvider>
-            <NotificationProvider>
-                <AntdRegistry>
-                    <Layout>
-                        <Header>
-                            <NavBar/>
-                        </Header>
-                        <Content className={styles.layoutContent}>
-                            {children}
-                        </Content>
-                        <Footer className={styles.layoutFooter}>
-                            © 2024 SmartTeach
-                        </Footer>
-                    </Layout>
-                </AntdRegistry>
-            </NotificationProvider>
-        </ConfigProvider>
+        <AppProvider>
+            <Layout className={styles.layout}>
+                <Header>
+                    <NavBar/>
+                </Header>
+                <Content className={styles.layoutContent}>
+                    {children}
+                </Content>
+                <Footer className={styles.layoutFooter}>
+                    © 2024 SmartTeach
+                </Footer>
+            </Layout>
+        </AppProvider>
         </body>
         </html>
     );

@@ -1,7 +1,16 @@
-.layoutContent{
+.layoutContent {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 6vh;
-    color: #ff0000 !important
+}
+
+.layoutFooter {
+    text-align: center;
+    color: #fff;
+    background-color: #4096ff;
+}
+
+.layout {
+    min-height: 100vh !important;
 }

@@ -5,12 +5,14 @@ import {RegisterFields} from "@/widgets/Auth/Register/components/RegisterFields"
 import {RegisterActions} from "@/widgets/Auth/Register/components/RegisterActions";
 import {handleFinish} from "@/widgets/Auth/Register/handlers/registerHandler";
 import {useRouter} from "next/navigation";
-import {useNotification} from "@/features/NotificationContext";
+import {useNotification} from "@/shared/contexts/NotificationContext";
+import {useAuth} from "@/shared/contexts/AuthContext";
 
 
 export default function RegisterWidget() {
     const router = useRouter();
     const {openNotificationWithIcon} = useNotification();
+    const {updateUser} = useAuth();
 
     const formItemLayout = {
         labelCol: {
@@ -29,7 +31,7 @@ export default function RegisterWidget() {
                 {...formItemLayout}
                 name="normal_register"
                 className="register-form"
-                onFinish={(values) => handleFinish(values, router, openNotificationWithIcon)}
+                onFinish={(values) => handleFinish(values, router, openNotificationWithIcon, updateUser)}
                 initialValues={{remember: true}}
                 style={{maxWidth: 800}}
                 scrollToFirstError

@@ -1,15 +1,17 @@
-import { Button, Checkbox, Form, Space } from 'antd';
+import {Button, Checkbox, Form, Space} from 'antd';
 import ForgotPasswordWidget from "@/widgets/Auth/ForgotPasswordWIdget";
 import Link from "next/link";
 
 export const LoginActions = () => (
     <>
         <Form.Item name="remember" valuePropName="checked">
-            <Checkbox>Запомнить меня</Checkbox>
-            <ForgotPasswordWidget/>
+            <Space>
+                <Checkbox>Запомнить меня</Checkbox>
+                <ForgotPasswordWidget/>
+            </Space>
         </Form.Item>
 
-        <Form.Item style={{ paddingBottom: 8 }}>
+        <Form.Item style={{paddingBottom: 8}}>
             <Space direction='horizontal' size='small'>
                 <Button type="primary" htmlType="submit" className="login-form-button">
                     Войти
