@@ -14,6 +14,7 @@ export default function NavBar() {
             <Link href={'/'}>
                 <div className={styles.logo} >SmartTeach</div>
             </Link>
+            
             <AvatarWidget/>
         </Header>
     )
