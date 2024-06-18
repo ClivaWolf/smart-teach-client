@@ -1,6 +1,7 @@
 'use client'
 import HomePage from "@/pages/HomePage";
 import UserCard from "@/widgets/dirtComponents/userCards/UserCard";
+import UserCardMini from "@/widgets/dirtComponents/userCards/UserCardMini";
 import { Space, Typography } from "antd";
 
 export default function Home() {
@@ -39,6 +40,23 @@ export default function Home() {
                     email={"email" + Math.round(Math.random() * 1000) + "@email.com"}
                     avatar={{ size: 64, src: getRandomAvatar() }}
                 />
+            </Space>
+            <Space>
+                <UserCardMini
+                    username={"UserName" + Math.round(Math.random() * 1000)}
+                    email={"email" + Math.round(Math.random() * 1000) + "@email.com"}
+                    avatar={{ size: 64, src: getRandomAvatar() }}
+                />
+                <UserCardMini
+                    username={"UserName" + Math.round(Math.random() * 1000)}
+                    email={"email" + Math.round(Math.random() * 1000) + "@email.com"}
+                    avatar={{ size: 64, src: getRandomAvatar() }}
+                />
+                <UserCardMini
+                    username={"UserName" + Math.round(Math.random() * 1000)}
+                    email={"email" + Math.round(Math.random() * 1000) + "@email.com"}
+                    avatar={{ size: 64, src: getRandomAvatar() }}
+                /> 
             </Space>
         </Space>
     </>

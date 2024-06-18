@@ -8,7 +8,7 @@ function UserCard({ username, avatar, email }: { username: string, avatar: Avata
         <Card className={styles.userCard}>
             <Space direction="vertical" size="small">
                 <Avatar {...avatar} size={96} />
-                //
+                {/*TODO: выровнять по центру, заменит спаны на тайпографи*/}
                 <span className={styles.userName}>{username}</span>
                 <span>{email}</span>
                 <span>Заходил вчера</span>
