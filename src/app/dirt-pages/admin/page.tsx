@@ -1,6 +1,6 @@
 'use client';
 import { DesktopOutlined, FileOutlined, PieChartOutlined, TeamOutlined, UserAddOutlined, UserOutlined, UsergroupAddOutlined } from "@ant-design/icons";
-import { Breadcrumb, Col, Layout, Menu, MenuProps, Row, Space, theme } from "antd";
+import { Layout, Menu, MenuProps, Space, theme } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { Content, Header } from "antd/es/layout/layout";
 import { useState } from "react";
@@ -35,16 +35,18 @@ const items: MenuItem[] = [
 
 function AdminDashboard() {
     const [collapsed, setCollapsed] = useState(false);
+
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
+
     return (
         <Layout style={{ minHeight: '100vh', margin: 0 }}>
             <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-                <div className="demo-logo-vertical" />
                 <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
             </Sider>
             <Layout>
+                {/* TODO: Реализовать переключение контейнеров */}
                 <Content style={{ margin: '0 16px' }}>
                     <div
                         style={{
