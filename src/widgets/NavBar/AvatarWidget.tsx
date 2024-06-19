@@ -12,8 +12,12 @@ export default function AvatarWidget() {
 
     const items: MenuProps['items'] = [
         {
-            label: 'Личный кабинет',
+            label: <Link href={'/user/' + user?.login ?? ''}><Button type='link'>Профиль</Button></Link>,
             key: '0',
+        },
+        {
+            label: <Link href={'/user/' + user?.login ?? '/settings'}><Button type='link'>Настройки</Button></Link>,
+            key: '1',
         },
         {
             type: 'divider',

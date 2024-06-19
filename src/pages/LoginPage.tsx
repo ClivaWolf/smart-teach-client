@@ -1,19 +1,26 @@
 import {Alert, Space} from "antd";
 import LoginWidget from "@/widgets/Auth/Login/LoginWidget";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {useRouter} from "next/navigation";
+import {useError} from "@/shared/contexts/ErrorContext";
 
 export function LoginPage() {
 
-    const [errormessage, setErrorMessage] = useState('');
+    const {errorMessage, setErrorMessage, clearErrorMessage} = useError();
 
-    const handleError = (message: string) => {
-        setErrorMessage(message);
-    };
+    useEffect(() => {
+        if (sessionStorage.getItem('login_error')) {
+            const error = JSON.parse(sessionStorage.getItem('login_error')!);
+            setErrorMessage(error.message);
+            sessionStorage.removeItem('login_error');
+        }
+        return () => clearErrorMessage();
+    }, [setErrorMessage, clearErrorMessage]);
 
     return (
         <Space align='center' direction='vertical' size='large'>
-            {errormessage && <Alert message='Ошибка!' description={errormessage} type="error" showIcon/>}
-            <LoginWidget onError={handleError}/>
+            {errorMessage && <Alert message='Ошибка!' description={errorMessage} type="error" showIcon/>}
+            <LoginWidget/>
         </Space>
     )
 }
