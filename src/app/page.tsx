@@ -2,6 +2,7 @@
 import HomePage from "@/pages/HomePage";
 import UserCard from "@/widgets/dirtComponents/userCards/UserCard";
 import UserCardMini from "@/widgets/dirtComponents/userCards/UserCardMini";
+import UsersList from "@/widgets/dirtComponents/userList/UserList";
 import { Space, Typography } from "antd";
 
 export default function Home() {
@@ -58,6 +59,7 @@ export default function Home() {
                     avatar={{ size: 64, src: getRandomAvatar() }}
                 /> 
             </Space>
+            <UsersList />
         </Space>
     </>
 }
