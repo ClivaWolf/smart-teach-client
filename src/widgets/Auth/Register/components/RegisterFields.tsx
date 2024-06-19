@@ -1,5 +1,6 @@
 import {Form, Input} from "antd";
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
+import {CheckField} from "@/features/Auth/CheckField";
 
 export const RegisterFields = () => (
     <>
@@ -7,7 +8,19 @@ export const RegisterFields = () => (
             name="login"
             label='Логин'
             tooltip="По этому логину потом можно будет входить в систему"
-            rules={[{required: true, message: 'Пожалуйста, введите свой логин!'}]}
+            hasFeedback
+            validateDebounce={400}
+            validateFirst
+            rules={[
+                {required: true, message: 'Пожалуйста, введите свой логин!'},
+                {
+                    validator: async (_: any, value: string) => {
+                        if (value && !await CheckField('login', value)) {
+                            return Promise.reject(new Error('Пользователь с таким логином уже существует!'));
+                        }
+                    }
+                }
+            ]}
         >
             <Input prefix={<UserOutlined className="site-form-item-icon"/>}/>
         </Form.Item>
@@ -15,7 +28,19 @@ export const RegisterFields = () => (
         <Form.Item
             name="email"
             label='Эл. почта'
-            rules={[{required: true, type: 'email', message: 'Пожалуйста, введите свою электронную почту!'}]}
+            hasFeedback
+            validateDebounce={400}
+            validateFirst
+            rules={[
+                {required: true, type: 'email', message: 'Некорректный формат электронной почты!'},
+                {
+                    validator: async (_: any, value: string) => {
+                        if (value && !await CheckField('email', value)) {
+                            return Promise.reject(new Error('Пользователь с такой почтой уже существует!'));
+                        }
+                    }
+                }
+            ]}
         >
             <Input prefix={<UserOutlined className="site-form-item-icon"/>}/>
         </Form.Item>

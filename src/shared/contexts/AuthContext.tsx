@@ -29,6 +29,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
     const [user, setUser] = useState<User | null>(null);
     const router = useRouter();
 
+    const logout = useCallback(() => {
+        localStorage.removeItem('token');
+        setUser(null);
+        router.push('/login');
+    }, [router]);
+
     const fetchUser = useCallback(async () => {
         const token = localStorage.getItem('token');
         if (token) {
@@ -44,18 +50,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
                 logout(); // Logout if the token is invalid
             }
         }
-    }, []);
+    }, [logout]);
 
     useEffect(() => {
         fetchUser().then(_ => {
         });
     }, [fetchUser]);
-
-    const logout = () => {
-        localStorage.removeItem('token');
-        setUser(null);
-        router.push('/login');
-    };
 
     const updateUser = () => {
         fetchUser().then(_ => {

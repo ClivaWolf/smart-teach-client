@@ -2,7 +2,7 @@
 import React from 'react';
 import "@/app/styles/globals.css";
 
-import {Layout, Space} from 'antd';
+import {Layout} from 'antd';
 import NavBar from "@/widgets/NavBar";
 
 import styles from './layout.module.css'

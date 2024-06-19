@@ -6,7 +6,7 @@ export const LoginActions = () => (
     <>
         <Form.Item name="remember" valuePropName="checked">
             <Space>
-                <Checkbox>Запомнить меня</Checkbox>
+                <Checkbox defaultChecked={true}>Запомнить меня</Checkbox>
                 <ForgotPasswordWidget/>
             </Space>
         </Form.Item>
