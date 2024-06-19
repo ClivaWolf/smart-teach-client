@@ -1,10 +1,9 @@
 'use client'
-import {Button, Layout, Menu, Space} from 'antd';
-import LoginPopover from "@/widgets/Auth/Login/LoginPopover";
-import {UserAddOutlined} from "@ant-design/icons";
+import {Layout} from 'antd';
 import Link from "next/link";
 
 import styles from './navBar.module.css'
+import AvatarWidget from "@/widgets/NavBar/AvatarWidget";
 
 const {Header} = Layout;
 
@@ -15,12 +14,8 @@ export default function NavBar() {
             <Link href={'/'}>
                 <div className={styles.logo} >SmartTeach</div>
             </Link>
-            <Space>
-                <LoginPopover/>
-                <Link href={'/register'}>
-                    <Button type='primary' icon={<UserAddOutlined/>}>Регистрация</Button>
-                </Link>
-            </Space>
+            
+            <AvatarWidget/>
         </Header>
     )
 }

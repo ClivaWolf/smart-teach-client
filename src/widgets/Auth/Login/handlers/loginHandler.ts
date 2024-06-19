@@ -1,12 +1,16 @@
-import { UserLogin } from "@/features/UserLogin";
+import {UserLogin} from "@/features/Auth/UserLogin";
+import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
 
-export const handleFinish = async (values: any, router: any) => {
+export const handleFinish = async (values: any, router: AppRouterInstance, updateUser: () => void,
+                                   setErrorMessage: (message: string) => void) => {
     const response = await UserLogin(values);
     if (response.error) {
+        setErrorMessage(response.error.message);
         sessionStorage.setItem('login_error', JSON.stringify(response.error));
-        router.push(`/login?error=${response.error.statusCode}`);
+        router.replace(`/login?error=${response.error.error}`);
     } else {
-        localStorage.setItem('token', response.token);
+        localStorage.setItem('token', response);
+        updateUser();
         router.push('/user/' + values.login);
     }
 };
