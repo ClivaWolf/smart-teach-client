@@ -4,11 +4,12 @@ import {NotificationContextProps} from "@/shared/contexts/NotificationContext";
 
 export const handleFinish = async (values: any, router: any,
                                    openNotificationWithIcon: NotificationContextProps['openNotificationWithIcon'],
-                                   updateUser: () => void) => {
+                                   updateUser: () => void, setErrorMessage: (message: string) => void) => {
     const response = await UserRegistration(values);
     if (response.error) {
+        setErrorMessage(response.error.message);
         sessionStorage.setItem('register_error', JSON.stringify(response.error));
-        router.push(`/register?error=${response.error.statusCode}`);
+        router.replace(`/register?error=${response.error.statusCode}`);
     } else {
         localStorage.setItem('token', response.token);
         openNotificationWithIcon('success', {

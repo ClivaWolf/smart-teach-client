@@ -1,7 +1,6 @@
 import {Alert, Space} from "antd";
 import LoginWidget from "@/widgets/Auth/Login/LoginWidget";
-import {useEffect, useState} from "react";
-import {useRouter} from "next/navigation";
+import {useEffect} from "react";
 import {useError} from "@/shared/contexts/ErrorContext";
 
 export function LoginPage() {
@@ -11,6 +10,7 @@ export function LoginPage() {
     useEffect(() => {
         if (sessionStorage.getItem('login_error')) {
             const error = JSON.parse(sessionStorage.getItem('login_error')!);
+            console.log(error);
             setErrorMessage(error.message);
             sessionStorage.removeItem('login_error');
         }

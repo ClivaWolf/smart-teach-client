@@ -1,10 +1,11 @@
 import RegisterWidget from "@/widgets/Auth/Register/RegisterWidget";
 import {Alert, Space} from "antd";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
+import {useError} from "@/shared/contexts/ErrorContext";
 
 export function RegisterPage() {
 
-    const [errormessage, setErrorMessage] = useState('');
+    const {errorMessage, setErrorMessage, clearErrorMessage} = useError();
 
     useEffect(() => {
         if (sessionStorage.getItem('register_error')) {
@@ -12,11 +13,12 @@ export function RegisterPage() {
             setErrorMessage(error.message);
             sessionStorage.removeItem('register_error');
         }
-    }, []);
+        return () => clearErrorMessage();
+    }, [setErrorMessage, clearErrorMessage]);
 
     return (
-        <Space align='center'>
-            {errormessage && <Alert message='Ошибка!' description={errormessage} type="error" showIcon/>}
+        <Space align='center' direction='vertical' size='large'>
+            {errorMessage && <Alert message='Ошибка!' description={errorMessage} type="error" showIcon/>}
             <RegisterWidget/>
         </Space>
     )
