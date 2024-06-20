@@ -2,32 +2,23 @@
 import React, {createContext, useContext, useState, useEffect, useCallback} from 'react';
 import axiosInstance from '@/shared/api/axiosInstance';
 import {useRouter} from 'next/navigation';
+import {UserType} from "@/shared/types/UserType";
 
-interface Role {
-    id: string;
-    value: string;
-    description: string;
-}
-
-interface User {
-    id: string;
-    login: string;
-    email: string;
-    avatar?: string;
-    roles: Role[];
-}
 
 interface AuthContextProps {
-    user: User | null;
+    user: UserType | null;
     logout: () => void;
     updateUser: () => void;
+    token: string | null;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<UserType | null>(null);
     const router = useRouter();
+
+    const token = localStorage.getItem('token');
 
     const logout = useCallback(() => {
         localStorage.removeItem('token');
@@ -36,7 +27,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
     }, [router]);
 
     const fetchUser = useCallback(async () => {
-        const token = localStorage.getItem('token');
         if (token) {
             try {
                 const response = await axiosInstance.get('/users/me', {
@@ -53,17 +43,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
     }, [logout]);
 
     useEffect(() => {
-        fetchUser().then(_ => {
+        fetchUser().then(() => {
         });
     }, [fetchUser]);
 
     const updateUser = () => {
-        fetchUser().then(_ => {
+        fetchUser().then(() => {
         });
     };
 
     return (
-        <AuthContext.Provider value={{user, logout, updateUser}}>
+        <AuthContext.Provider value={{user, logout, updateUser, token}}>
             {children}
         </AuthContext.Provider>
     );

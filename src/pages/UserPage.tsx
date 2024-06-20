@@ -2,14 +2,18 @@
 import {Button, Spin} from "antd";
 import {useAuth} from "@/shared/contexts/AuthContext";
 import {useRouter} from "next/navigation";
-import {GetUserByLogin} from "@/features/GetUserByLogin";
+import {GetUserByLogin} from "@/features/User/GetUserByLogin";
 import {useEffect, useState} from "react";
+import {GetAboutUser} from "@/features/User/GetAboutUser";
+import {UserType} from "@/shared/types/UserType";
+import {LoginFormType} from "@/shared/types/AuthFormType";
 
 export default function UserPage({params}: { params: { user_login: string } }) {
     const {user, logout} = useAuth();
     const router = useRouter();
 
-    const [anotherUser, setAnotherUser] = useState<string | null>(null);
+    const [anotherUser, setAnotherUser] = useState<LoginFormType | null>(null);
+    const [aboutUser, setAboutUser] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
 
     const fetchUser = async (login: string) => {
@@ -21,11 +25,24 @@ export default function UserPage({params}: { params: { user_login: string } }) {
         }
     };
 
+    const fetchAboutUser = async () => {
+        try {
+            return await GetAboutUser();
+        } catch (error) {
+            console.error('Failed to fetch user:', error);
+            return null;
+        }
+    };
+
     useEffect(() => {
         if (params.user_login) {
             fetchUser(params.user_login).then((data) => {
                 setLoading(false);
-                setAnotherUser(data?.login ?? null);
+                setAnotherUser(data);
+            });
+
+            fetchAboutUser().then((data) => {
+                setAboutUser(data ?);
             });
         }
     }, [params.user_login]);
@@ -51,6 +68,10 @@ export default function UserPage({params}: { params: { user_login: string } }) {
                 <h2>Страница пользователя {anotherUser}</h2>
             </div>
         );
+    }
+
+    const aboutUser = async () => {
+        const aboutUser = await GetAboutUser();
     }
 
     return (
