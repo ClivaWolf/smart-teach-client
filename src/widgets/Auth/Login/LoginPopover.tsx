@@ -2,13 +2,16 @@ import {useState} from "react";
 import {Button, Popover} from 'antd';
 import LoginWidget from "@/widgets/Auth/Login/LoginWidget";
 import {UserOutlined} from "@ant-design/icons";
+import {usePathname} from "next/navigation";
 
 
 export default function LoginPopover() {
     const [open, setOpen] = useState(false);
+    const pathname = usePathname();
 
     const handleOpenChange = (newOpen: boolean) => {
-        setOpen(newOpen);
+        if (pathname !== '/login')
+            setOpen(newOpen);
     };
 
     return (
