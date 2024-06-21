@@ -7,14 +7,14 @@ import { setCookie } from "nookies";
 function RegisterForm() {
     const onSubmit = async (values: RegisterFormDto) => {
         try {
-            const {token} = await Api.auth.register(values);
+            const {access_token} = await Api.auth.register(values);
             notification.success({
                 message: 'Успешно!',
                 description: 'Переходим в ваш профиль',
                 duration: 2
             })
 
-            setCookie(null, '_token', token, {
+            setCookie(null, '_token', access_token, {
                 path: '/',
             })
         } catch (e) {

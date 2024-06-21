@@ -7,18 +7,21 @@ import { setCookie } from "nookies";
 function LoginForm() {
     const onSubmit = async (values: LoginFormDto) => {
         try {
-            const {token} = await Api.auth.login(values);
+            const {access_token} = await Api.auth.login(values);
+            
+            setCookie(null, '_token', access_token, {
+                path: '/',
+            })
+
             notification.success({
                 message: 'Успешно!',
                 description: 'Переходим в ваш профиль',
                 duration: 2
             })
-
-            setCookie(null, '_token', token, {
-                path: '/',
-            })
+            //TODO: заменить хреф на нормальный метод переадресации
+            location.href = '/dashboard';
         } catch (e) {
-            console.warn('LoginForm error', e);
+            // console.warn('LoginForm error', e);
 
             notification.error({
                 message: 'Что то пошло не так',
