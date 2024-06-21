@@ -1,9 +1,7 @@
 import axios from 'axios';
-import {serverConfig} from '@/shared/config/config';
-
 
 const axiosInstance = axios.create({
-    baseURL: serverConfig.urlRemoteServer,
+    baseURL: 'http://192.168.1.110:4444',
     headers: {
         'Content-Type': 'application/json',
     },
