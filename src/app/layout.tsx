@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import "@/app/styles/globals.css";
-
+//trash commit
 import {Layout} from 'antd';
 import NavBar from "@/widgets/NavBar";
 
