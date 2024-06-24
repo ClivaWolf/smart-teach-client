@@ -3,8 +3,10 @@ import { Button, Form, Input, notification } from "antd";
 
 import * as Api from "@/api"
 import { setCookie } from "nookies";
+import { useRouter } from "next/router";
 
 function LoginForm() {
+    const nav = useRouter()
     const onSubmit = async (values: LoginFormDto) => {
         try {
             const {access_token} = await Api.auth.login(values);
@@ -18,8 +20,7 @@ function LoginForm() {
                 description: 'Переходим в ваш профиль',
                 duration: 2
             })
-            //TODO: заменить хреф на нормальный метод переадресации
-            location.href = '/dashboard';
+            nav.push('/dashboard')
         } catch (e) {
             // console.warn('LoginForm error', e);
 

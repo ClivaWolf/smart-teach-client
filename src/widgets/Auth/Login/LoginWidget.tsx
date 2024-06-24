@@ -7,7 +7,9 @@ import { LoginActions } from './components/LoginActions';
 import {useAuth} from "@/shared/contexts/AuthContext";
 import {useError} from "@/shared/contexts/ErrorContext";
 
-
+//TODO: переделать
+// и логи и регистер уже имеют реализацю в виде форм, но они должны быть виджетами как это было раньше
+//при этом не нарушать мной проделанную логику
 export default function LoginWidget() {
     const router = useRouter();
     const {updateUser} = useAuth();

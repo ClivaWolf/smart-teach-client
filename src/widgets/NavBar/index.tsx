@@ -6,6 +6,8 @@ import styles from './navBar.module.css'
 import AvatarWidget from "@/widgets/NavBar/AvatarWidget";
 
 const {Header} = Layout;
+//TODO: переделать
+//навбар должен быть энтити и прокидываться в хеадер,
 
 
 export default function NavBar() {

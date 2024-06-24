@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "npm-client-2",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,10 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.3.7",
-    "@ant-design/nextjs-registry": "^1.0.0",
-    "@ant-design/plots": "^2.2.2",
-    "antd": "^5.18.1",
+    "@ant-design/cssinjs": "^1.21.0",
+    "antd": "^5.18.3",
     "axios": "^1.7.2",
     "next": "14.2.4",
     "nookies": "^2.5.2",
