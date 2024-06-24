@@ -1,7 +1,7 @@
 'use client'
 import HomePage from "@/pages/HomePage";
-import UserCard from "@/widgets/dirtComponents/userCards/UserCard";
-import UserCardMini from "@/widgets/dirtComponents/userCards/UserCardMini";
+import UserCard from "../components/userCards/UserCard";
+import UserCardMini from "../components/userCards/UserCardMini";
 import UsersList from "@/widgets/dirtComponents/userList/UserList";
 import { Space, Typography } from "antd";
 

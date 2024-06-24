@@ -13,15 +13,17 @@ export type RegisterFormDto = LoginFormDto & {
 
 export type RegisterResponseDto = LoginResponseDto
 
-export interface User {
+export interface UserDto {
     id: string;
     login: string;
     email: string;
-    roles: string[];
-    about: AboutUser;
+    password: string;
+    roles: RoleDto[];
+    aboutUser: AboutUserDto;
 }
 
-export interface AboutUser {
+export interface AboutUserDto {
+    id: string;
     name: string;
     surname: string;
     patronymic: string;
@@ -30,6 +32,12 @@ export interface AboutUser {
     avatar: string;
     emailVisible: visibility;
     signature: string;
+}
+
+export interface RoleDto{
+    id: string;
+    value: string;
+    description: string;
 }
 
 enum visibility {
