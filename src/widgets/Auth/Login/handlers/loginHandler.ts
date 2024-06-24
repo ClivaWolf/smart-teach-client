@@ -1,8 +1,8 @@
 import {UserLogin} from "@/features/Auth/UserLogin";
 import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
-import {LoginFormType} from "@/shared/types/AuthFormType";
+import {FormType} from "@/shared/types/UserType";
 
-export const handleFinish = async (values: LoginFormType, router: AppRouterInstance, updateUser: () => void,
+export const handleFinish = async (values: FormType, router: AppRouterInstance, updateUser: () => void,
                                    setErrorMessage: (message: string) => void) => {
     const response = await UserLogin(values);
     if (response.error) {

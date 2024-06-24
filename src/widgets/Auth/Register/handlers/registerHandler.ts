@@ -1,9 +1,9 @@
 import {UserRegistration} from "@/features/Auth/UserRegistration";
 import {NotificationContextProps} from "@/shared/contexts/NotificationContext";
-import {RegisterFormType} from "@/shared/types/AuthFormType";
+import {FormType} from "@/shared/types/UserType";
 
 
-export const handleFinish = async (values: RegisterFormType, router: any,
+export const handleFinish = async (values: FormType, router: any,
                                    openNotificationWithIcon: NotificationContextProps['openNotificationWithIcon'],
                                    updateUser: () => void, setErrorMessage: (message: string) => void) => {
     const response = await UserRegistration(values);

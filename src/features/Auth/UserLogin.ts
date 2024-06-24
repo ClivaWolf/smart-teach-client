@@ -1,8 +1,8 @@
 import axiosInstance from "@/shared/api/axiosInstance";
-import {LoginFormType} from "@/shared/types/AuthFormType";
+import {FormType} from "@/shared/types/UserType";
 
 
-export const UserLogin = async (formData: LoginFormType) => {
+export const UserLogin = async (formData: FormType) => {
     try {
         const response = await axiosInstance.post('/auth/login', formData);
         if (response.status === 200) {

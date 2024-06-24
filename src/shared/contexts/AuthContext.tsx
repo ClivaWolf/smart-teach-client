@@ -1,9 +1,8 @@
 'use client';
-import React, {createContext, useContext, useState, useEffect, useCallback} from 'react';
+import React, {createContext, useContext, useState, useEffect, useCallback, useMemo} from 'react';
 import axiosInstance from '@/shared/api/axiosInstance';
 import {useRouter} from 'next/navigation';
 import {UserType} from "@/shared/types/UserType";
-
 
 interface AuthContextProps {
     user: UserType | null;
@@ -16,13 +15,13 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}) => {
     const [user, setUser] = useState<UserType | null>(null);
+    const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
     const router = useRouter();
-
-    const token = localStorage.getItem('token');
 
     const logout = useCallback(() => {
         localStorage.removeItem('token');
         setUser(null);
+        setToken(null);
         router.push('/login');
     }, [router]);
 
@@ -40,20 +39,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
                 logout(); // Logout if the token is invalid
             }
         }
-    }, [logout]);
+    }, [logout, token]);
 
     useEffect(() => {
-        fetchUser().then(() => {
-        });
+        if (token) {
+            fetchUser();
+        }
+    }, [fetchUser, token]);
+
+    const updateUser = useCallback(() => {
+        fetchUser();
     }, [fetchUser]);
 
-    const updateUser = () => {
-        fetchUser().then(() => {
-        });
-    };
+    const contextValue = useMemo(() => ({
+        user,
+        logout,
+        updateUser,
+        token,
+    }), [user, logout, updateUser, token]);
 
     return (
-        <AuthContext.Provider value={{user, logout, updateUser, token}}>
+        <AuthContext.Provider value={contextValue}>
             {children}
         </AuthContext.Provider>
     );

@@ -1,22 +1,28 @@
-export interface RoleType {
+export type RoleType = {
     id: string;
     value: string;
     description: string;
 }
 
-export interface UserType {
-    id: string;
+export type UserType = {
     login: string;
     email: string;
-    roles: RoleType[];
+    role: RoleType[];
 }
 
-export interface AboutUserType {
+export type FormType = UserType & {
+    password: string;
+    remember: boolean;
+}
+
+export type AboutUserType = {
     name: string;
     surname: string;
-    patronymic: string;
-    city: string;
-    avatar: string;
-    email: string;
-    signature: string;
+    patronymic?: string;
+    birthDate?: string;
+    gender?: string;
+    city?: string;
+    avatar?: string;
+    emailVisible: boolean;
+    signature?: string;
 }

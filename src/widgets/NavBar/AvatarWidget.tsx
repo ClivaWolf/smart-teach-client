@@ -33,8 +33,8 @@ export default function AvatarWidget() {
             <Dropdown menu={{items}} trigger={['click']}>
                 <Space>
                     <Text style={{color: '#fff'}}>{user.login}</Text>
-                    <Avatar style={{backgroundColor: '#87d068'}} src={user.avatar ?? ''}
-                            icon={user.avatar ? "" : <UserOutlined/>}/>
+                    {/*<Avatar style={{backgroundColor: '#87d068'}} src={user.avatar ?? ''}*/}
+                    {/*        icon={user.avatar ? "" : <UserOutlined/>}/>*/}
                 </Space>
             </Dropdown>
         );

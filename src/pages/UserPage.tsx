@@ -2,18 +2,16 @@
 import {Button, Spin} from "antd";
 import {useAuth} from "@/shared/contexts/AuthContext";
 import {useRouter} from "next/navigation";
-import {GetUserByLogin} from "@/features/User/GetUserByLogin";
 import {useEffect, useState} from "react";
 import {GetAboutUser} from "@/features/User/GetAboutUser";
-import {UserType} from "@/shared/types/UserType";
-import {LoginFormType} from "@/shared/types/AuthFormType";
+import {AboutUserType} from "@/shared/types/UserType";
+import {GetUserByLogin} from "@/features/User/GetUserByLogin";
 
 export default function UserPage({params}: { params: { user_login: string } }) {
-    const {user, logout} = useAuth();
+    const {user, token, logout} = useAuth();
     const router = useRouter();
 
-    const [anotherUser, setAnotherUser] = useState<LoginFormType | null>(null);
-    const [aboutUser, setAboutUser] = useState<string | null>(null);
+    const [aboutUser, setAboutUser] = useState<AboutUserType | null>(null);
     const [loading, setLoading] = useState(true);
 
     const fetchUser = async (login: string) => {
@@ -25,35 +23,40 @@ export default function UserPage({params}: { params: { user_login: string } }) {
         }
     };
 
-    const fetchAboutUser = async () => {
+    const fetchAboutUser = async (token: string) => {
         try {
-            return await GetAboutUser();
+            return await GetAboutUser(token);
         } catch (error) {
-            console.error('Failed to fetch user:', error);
+            console.error('Failed to fetch about user:', error);
             return null;
         }
     };
 
     useEffect(() => {
-        if (params.user_login) {
-            fetchUser(params.user_login).then((data) => {
-                setLoading(false);
-                setAnotherUser(data);
-            });
+        const loadUserData = async () => {
+            setLoading(true);
+            if (token) {
+                const userData = await fetchUser(params.user_login);
+                if (userData && userData.login === user?.login) {
+                    const aboutUserData = await fetchAboutUser(token);
+                    setAboutUser(aboutUserData ?? null);
+                }
+            }
+            setLoading(false);
+        };
 
-            fetchAboutUser().then((data) => {
-                setAboutUser(data ?);
-            });
-        }
-    }, [params.user_login]);
+        loadUserData();
+    }, [params.user_login, token, user]);
 
     if (loading) {
-        return <Spin tip="Загрузка..." size="large">
-            <pre>            </pre>
-        </Spin>;
+        return (
+            <Spin tip="Загрузка..." size="large">
+                <div style={{minHeight: '100px'}}></div>
+            </Spin>
+        );
     }
 
-    if (!user) {
+    if (!token) {
         return (
             <div>
                 <h2>Вы не авторизованы</h2>
@@ -62,23 +65,27 @@ export default function UserPage({params}: { params: { user_login: string } }) {
         );
     }
 
-    if (user.login !== params.user_login) {
+    // TODO: Пока не реализовано
+    if (params.user_login !== user?.login) {
         return (
             <div>
-                <h2>Страница пользователя {anotherUser}</h2>
+                <h2>Страница пользователя {params.user_login}</h2>
             </div>
         );
-    }
-
-    const aboutUser = async () => {
-        const aboutUser = await GetAboutUser();
     }
 
     return (
         <div>
             <h1>Добро пожаловать, {user.login}</h1>
             <p>Email: {user.email}</p>
-            <p>Роли: {user.roles.map(role => role.description).join(', ')}</p>
+            <p>Логин: {user.login}</p>
+            <p>Роли: {user.role?.map((role) => role.value).join(', ')}</p>
+            <p>Имя: {aboutUser?.name}</p>
+            <p>Фамилия: {aboutUser?.surname}</p>
+            <p>Отчество: {aboutUser?.patronymic}</p>
+            <p>Город: {aboutUser?.city}</p>
+            <p>Аватар: {aboutUser?.avatar}</p>
+            <p>О себе: {aboutUser?.signature}</p>
             <Button onClick={logout}>Выйти</Button>
         </div>
     );

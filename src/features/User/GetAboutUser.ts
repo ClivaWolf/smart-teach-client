@@ -1,9 +1,7 @@
 import axiosInstance from "@/shared/api/axiosInstance";
-import {useAuth} from "@/shared/contexts/AuthContext";
 import {AboutUserType} from "@/shared/types/UserType";
 
-export const GetAboutUser = async (): Promise<AboutUserType | undefined> => {
-    const {token} = useAuth();
+export const GetAboutUser = async (token: string): Promise<AboutUserType | undefined> => {
     if (token) {
         try {
             const response = await axiosInstance.get('/users/profile', {
@@ -11,9 +9,11 @@ export const GetAboutUser = async (): Promise<AboutUserType | undefined> => {
                     Authorization: `Bearer ${token}`,
                 },
             });
+            console.log(response.data);
             return response.data;
         } catch (error) {
-            console.error('Failed to fetch user', error);
+            console.error('Failed to fetch about user', error);
         }
     }
+    return undefined;
 }

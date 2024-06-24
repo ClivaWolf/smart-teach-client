@@ -1,8 +1,8 @@
 import axiosInstance from "@/shared/api/axiosInstance";
-import {LoginFormType} from "@/shared/types/AuthFormType";
+import {FormType} from "@/shared/types/UserType";
 
 
-export const GetUserByLogin = async (login: LoginFormType['login']): Promise<LoginFormType | undefined> => {
+export const GetUserByLogin = async (login: FormType['login']): Promise<FormType | undefined> => {
     try {
         const response = await axiosInstance.get('/users/login/' + login);
         if (response.status === 200) {
