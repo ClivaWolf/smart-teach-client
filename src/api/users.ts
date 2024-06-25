@@ -35,3 +35,7 @@ export const uploadFile = async (options: any) => {
 export const setAvatar = async (filename: string) => {
     return (await axios.patch("users/update-profile", { avatar: filename }))
 }
+
+export const getMyFiles = async () => {
+    return (await axios.get("users/my-files")).data
+}

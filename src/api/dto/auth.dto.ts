@@ -22,6 +22,7 @@ export interface UserDto {
     login: string;
     email: string;
     password: string;
+    files: File[];
     roles: RoleDto[];
     aboutUser: AboutUserDto;
 }
@@ -48,4 +49,10 @@ enum visibility {
     everyone = 'everyone',
     teachers = 'teachers',
     hidden = 'hidden'
+}
+
+export interface File {
+    id: string;
+    name: string;
+    path: string;
 }
