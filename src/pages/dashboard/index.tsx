@@ -6,7 +6,11 @@ import { UserDto } from "@/api/dto/auth.dto";
 import { Header } from "@/entities/Header";
 import axios from "@/core/axios";
 import { useRouter } from "next/router";
-import { notification } from "antd";
+import { Avatar, Button, Space, notification } from "antd";
+import AvatarUpload from "@/features/AvatarUpload";
+import { UploadButton } from "@/features/UploadButton";
+// import AvatarUploader from "@/features/AvatarUploader";
+import { CloudUploadOutlined } from "@ant-design/icons";
 
 interface DashboardPageProps {
     userData: UserDto;
@@ -24,15 +28,27 @@ const DashboardPage: NextPage<DashboardPageProps> = ({ userData }) => {
         nav.push('/auth')
     }
 
-    const avatarPath = userData && userData.aboutUser? axios.defaults.baseURL + '/uploads/' + userData.login + '/' + userData.aboutUser.avatar : '';
+    const avatarPath = userData && userData.aboutUser ? axios.defaults.baseURL + '/uploads/' + userData.login + '/' + userData.aboutUser.avatar : '';
 
     return (
-        <>
+        <Space direction="vertical">
             <Header avatar={avatarPath}></Header>
             <h1>Private</h1>
+            <h3>For testing:</h3>
             {JSON.stringify(userData)}
-            <button onClick={logout}>Logout</button>
-        </>
+
+            {/* <AvatarUploader currentUrl={avatarPath}/> */}
+            <UploadButton
+                button={
+                    <Button type="primary" icon={<CloudUploadOutlined />} size="large">
+                        Загрузить файл
+                    </Button>
+                }
+            />
+            <AvatarUpload currentUrl={avatarPath} onUpload={() => nav.reload()} />
+                {/* reload - это не хорошо */}
+            <Button onClick={logout}>Logout</Button>
+        </Space>
     )
 }
 
