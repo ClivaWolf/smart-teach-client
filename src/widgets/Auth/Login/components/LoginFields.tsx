@@ -5,13 +5,13 @@ export const LoginFields = () => (
     <>
         <Form.Item
             name="login"
-            rules={[{ required: true, message: 'Пожалуйста, введите свою почту или логин!' }]}
+            rules={[{ required: true, message: 'введите свою почту или логин' }]}
         >
             <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Эл. почта или логин" />
         </Form.Item>
         <Form.Item
             name="password"
-            rules={[{ required: true, message: 'Пожалуйста, введите свой пароль!' }]}
+            rules={[{ required: true, message: 'введите свой пароль' }]}
         >
             <Input.Password
                 prefix={<LockOutlined className="site-form-item-icon" />}

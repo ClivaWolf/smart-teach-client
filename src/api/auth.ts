@@ -21,3 +21,7 @@ export const getMe = async (): Promise<UserDto> => {
 export const logout = async () => {
     destroyCookie(null, '_token', { path: '/' });
 }
+
+export const isFieldAlreadyExist = async (field: string, value: string): Promise<boolean> => {
+    return (await axios.get(`/users/check-field?field=${field}&value=${value}`)).data
+}

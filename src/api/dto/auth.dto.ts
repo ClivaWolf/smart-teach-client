@@ -1,5 +1,5 @@
 //TODO: Это твои верные дто
-//Они помогут тебе при написании кода - их нужно синхронизировать с серверными дто,
+//Они помогут тебе при написании кода - их нужно время от времени синхронизировать с серверными дто,
 //могут различаться реализации, но не логика
 
 export interface LoginFormDto {
@@ -22,6 +22,7 @@ export interface UserDto {
     login: string;
     email: string;
     password: string;
+    files: File[];
     roles: RoleDto[];
     aboutUser: AboutUserDto;
 }
@@ -48,4 +49,10 @@ enum visibility {
     everyone = 'everyone',
     teachers = 'teachers',
     hidden = 'hidden'
+}
+
+export interface File {
+    id: string;
+    name: string;
+    path: string;
 }
