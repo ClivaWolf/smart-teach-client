@@ -4,13 +4,16 @@ import { Button, Form, Input, notification } from "antd";
 import * as Api from "@/api"
 import { setCookie } from "nookies";
 import { useRouter } from "next/router";
+import { debounce } from "lodash";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { checkFieldHandler } from "@/features/Auth/checkField";
 
 function LoginForm() {
     const nav = useRouter()
     const onSubmit = async (values: LoginFormDto) => {
         try {
-            const {access_token} = await Api.auth.login(values);
-            
+            const { access_token } = await Api.auth.login(values);
+
             setCookie(null, '_token', access_token, {
                 path: '/',
             })
@@ -31,37 +34,38 @@ function LoginForm() {
             })
         }
     }
+
     return (
-        <>
-            <Form
-                name='auth'
-                labelCol={{ span: 8 }}
-                onFinish={onSubmit}>
+        <Form
+            name='auth'
+            labelCol={{ span: 8 }}
+            onFinish={onSubmit}>
 
-                <Form.Item
-                    name='login'
-                    label='Логин'
-                    rules={[{ required: true, message: 'введите свой логин или почту' }]}
-                >
-                    <Input />
-                </Form.Item>
+            <Form.Item
+                name="login"
+                label="Логин"
+                rules={[
+                    { required: true, message: 'введите свой логин или почту' }
+                ]}
+            >
+                <Input prefix={<UserOutlined />} />
+            </Form.Item>
 
-                <Form.Item
-                    name='password'
-                    label='Пароль'
-                    rules={[{ required: true, message: 'введите свой пароль' }]}
-                >
-                    <Input.Password />
-                </Form.Item>
+            <Form.Item
+                name='password'
+                label='Пароль'
+                rules={[{ required: true, message: 'введите свой пароль' }]}
+            >
+                <Input.Password prefix={<LockOutlined />} />
+            </Form.Item>
 
-                <Form.Item>
-                    <Button type="primary" htmlType="submit">
-                        Войти
-                    </Button>
-                </Form.Item>
+            <Form.Item>
+                <Button type="primary" htmlType="submit">
+                    Войти
+                </Button>
+            </Form.Item>
 
-            </Form>
-        </>
+        </Form>
     );
 }
 

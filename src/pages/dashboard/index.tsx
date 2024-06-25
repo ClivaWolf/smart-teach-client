@@ -1,6 +1,6 @@
 //its server side!!
 import { GetServerSidePropsContext, NextPage } from "next";
-import { checkAuth } from "@/features/auth/checkAuth";
+import { checkAuth } from "@/features/Auth/checkAuth"
 import * as Api from "@/api";
 import { UserDto } from "@/api/dto/auth.dto";
 import { Header } from "@/entities/Header";
@@ -24,9 +24,11 @@ const DashboardPage: NextPage<DashboardPageProps> = ({ userData }) => {
         nav.push('/auth')
     }
 
+    const avatarPath = userData && userData.aboutUser? axios.defaults.baseURL + '/uploads/' + userData.login + '/' + userData.aboutUser.avatar : '';
+
     return (
         <>
-            <Header avatar={axios.defaults.baseURL +'/uploads/'+userData.login+'/'+ userData.aboutUser.avatar}></Header>
+            <Header avatar={avatarPath}></Header>
             <h1>Private</h1>
             {JSON.stringify(userData)}
             <button onClick={logout}>Logout</button>
@@ -43,12 +45,21 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
 
     // without id's and password
     let me = await Api.auth.getMe();
-    me.id = '';
-    me.password = '';
-    me.aboutUser.id = '';
-    me.roles.forEach(role => {
-        role.id = '';
-    });
+
+    if (me) {
+        me.id = '';
+        me.password = '';
+
+        if (me.aboutUser) {
+            me.aboutUser.id = '';
+        }
+
+        if (Array.isArray(me.roles)) {
+            me.roles.forEach(role => {
+                role.id = '';
+            });
+        }
+    }
 
     console.log(me);
 
