@@ -1,14 +1,23 @@
 import {Avatar, Button, Dropdown, MenuProps, Space, Typography} from "antd";
 import {UserAddOutlined, UserOutlined} from "@ant-design/icons";
-import {useAuth} from "@/shared/contexts/AuthContext";
-import LoginPopover from "@/widgets/Auth/Login/LoginPopover";
+// import {useAuth} from "@/shared/contexts/AuthContext";
+// import LoginPopover from "@/widgets/Auth/Login/LoginPopover";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 
-export default function AvatarWidget() {
+export default async function AvatarWidget() {
+
+    const session = await getServerSession(authOptions)
+
+    const user = session?.user
 
     const {Text} = Typography;
-    const {user, logout} = useAuth();
+
+    const blyad = () =>{
+        alert("нужно чистить куки")
+    }
 
     const items: MenuProps['items'] = [
         {
@@ -23,7 +32,7 @@ export default function AvatarWidget() {
             type: 'divider',
         },
         {
-            label: <Button type='link' danger={true} onClick={logout}>Выход</Button>,
+            label: <Button type='link' danger={true} onClick={blyad}>Выход</Button>,
             key: '3',
         },
     ];
@@ -41,7 +50,7 @@ export default function AvatarWidget() {
     } else {
         return (
             <Space>
-                <LoginPopover/>
+                {/* <LoginPopover/> */}
                 <Link href={'/register'}>
                     <Button type='primary' icon={<UserAddOutlined/>}>Регистрация</Button>
                 </Link>
