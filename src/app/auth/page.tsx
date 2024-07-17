@@ -1,70 +1,112 @@
-'use client'
+"use client";
 
-import { loginController } from '@/app/lib/actions'
-import { Button, Form, Input } from 'antd'
-import FormItem from 'antd/es/form/FormItem'
-import InputPassword from 'antd/es/input/Password'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { useFormState, useFormStatus } from 'react-dom'
+import { Button, Input, Space } from "antd";
+import { signIn } from "next-auth/react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { ChangeEvent, useState } from "react";
 
-export default function Page() {
-    const nav = useRouter()
-    const [form] = Form.useForm();
+const LoginForm = () => {
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
 
-    const [errorMessage, setErrorMessage] = useState('');
+    const [formValues, setFormValues] = useState({
+        login: "",
+        password: "",
+    });
 
+    const [error, setError] = useState("");
 
-    const onFinish = async (values: { login: string; password: string }) => {
-        const formData = new FormData();
-        formData.append('login', values.login);
-        formData.append('password', values.password);
+    const searchParams = useSearchParams();
+    const callbackUrl = searchParams.get("callbackUrl") || "/profile";
 
-        await loginController(errorMessage, formData)//эта строка на кой-то чёрт выводит ошибку 500 в консоль, хотя ошибки вроде обработаны
-            .then(() => {
-                setErrorMessage('');
-                // form.resetFields();
-                // nav.push('/dashboard');
-            }).catch((error) => {
-                if (error.message) {
-                    setErrorMessage(error.message);
-                }
+    const onSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            setLoading(true);
+            setFormValues({ login: "", password: "" });
+
+            const res = await signIn("credentials", {
+                redirect: false,
+                login: formValues.login,
+                password: formValues.password,
+                callbackUrl,
             });
 
+            setLoading(false);
+
+            console.log(res);
+            if (!res?.error) {
+                router.push(callbackUrl);
+            } else {
+                setError("invalid email/login or password");
+            }
+        } catch (error: any) {
+            setLoading(false);
+            setError(error);
+        }
     };
 
-    return (
-        <Form onFinish={onFinish} form={form} initialValues={{ login: '', password: '' }}>
-            <FormItem
-                name="login"
-                label="Login"
-                rules={[{ required: true }]}
-            ><Input />
-            </FormItem>
-            <FormItem
-                name="password"
-                label="Password"
-                rules={[{ required: true }]}
-            ><InputPassword />
-            </FormItem>
-            <div>{errorMessage !== '' && <p style={{ color: 'red' }}>{errorMessage}</p>}</div>
-            <LoginButton />
-        </Form>
-    )
-}
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        setFormValues({ ...formValues, [name]: value });
+    };
 
-function LoginButton() {
-    const { pending } = useFormStatus()
-
-    const handleClick = (event: { preventDefault: () => void }) => {
-        if (pending) {
-            event.preventDefault()
-        }
-    }
 
     return (
-        <Button loading={pending} htmlType="submit" onClick={handleClick}>
-            Login
-        </Button>
-    )
-}
+        <form onSubmit={onSubmit}>
+            <Space direction="vertical">
+                {error && (
+                    <p>{error}</p>
+                )}
+                <Input
+                    required
+                    name="login"
+                    value={formValues.login}
+                    onChange={handleChange}
+                    placeholder="Email address or login"
+                />
+
+                <Input
+                    required
+                    type="password"
+                    name="password"
+                    value={formValues.password}
+                    onChange={handleChange}
+                    placeholder="Password"
+                />
+                <Button
+                    htmlType="submit"
+                    disabled={loading}
+                >
+                    {loading ? "loading..." : "Sign In"}
+                </Button>
+                <p>OR</p>
+                <a
+                    onClick={() => alert("Not implemented yet")}
+                    role="button"
+                >
+                    <img
+                        className="pr-2"
+                        src="/images/google.svg"
+                        alt=""
+                        style={{ height: "2rem" }}
+                    />
+                    Continue with Google
+                </a>
+                <a
+                    onClick={() => alert("Not implemented yet")}
+                    role="button"
+                >
+                    <img
+                        src="/images/github.svg"
+                        alt=""
+                        style={{ height: "2.2rem" }}
+                    />
+                    Continue with GitHub
+                </a>
+            </Space>
+        </form>
+    );
+};
+
+export default LoginForm

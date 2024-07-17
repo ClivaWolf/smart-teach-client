@@ -7,8 +7,9 @@ declare module "next-auth/jwt" {
     interface JWT {
         user: {
             id: number;
-            email: string;
+            login: string;
             name: string;
+            avatar:string;
         };
 
         backendTokens: {
@@ -23,8 +24,9 @@ declare module "next-auth" {
     interface Session {
         user: {
             id: number;
-            email: string;
+            login: string;
             name: string;
+            avatar:string;
         };
 
         backendTokens: {
@@ -50,6 +52,9 @@ async function refreshToken(token: JWT): Promise<JWT> {
 }
 
 export const authOptions: NextAuthOptions = {
+    pages:{
+        signIn:'/auth'
+    },
     providers: [
         CredentialsProvider({
             name: "Credentials",
